@@ -27,16 +27,10 @@ export default class MukeVideo extends Component {
     }
 
 
-    render() {
-
+    render(){
         return (
-            <View style={{
-                paddingTop: this.statusHeight,
-                flex: 1,
-                justifyContent: Util.getWidth() > Util.getHeight() ? 'center' : 'flex-start',
-                alignItems: 'center',
-                backgroundColor: '#eee',
-            }}>
+            <View style={{flex:1,justifyContent: 'center', alignItems: 'center',}}>
+                <Text style={{color: "#000"}}>MukeVideo</Text>
             </View>
         );
     }

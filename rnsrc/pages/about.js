@@ -13,8 +13,8 @@ export default class About extends Component {
     render() {
 
         return (
-            <View style={{flex:1}}>
-
+            <View style={{flex:1,justifyContent: 'center', alignItems: 'center',}}>
+                <Text style={{color: "#000"}}>About</Text>
             </View>
         );
     }

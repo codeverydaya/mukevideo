@@ -11,8 +11,8 @@ export default class CourseContent extends Component  {
   render() {
 
     return (
-        <View style={{flex:1}}>
-
+        <View style={{flex:1,justifyContent: 'center', alignItems: 'center',}}>
+            <Text style={{color: "#000"}}>CourseContent</Text>
         </View>
     );
   }

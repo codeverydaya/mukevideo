@@ -11,8 +11,8 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 export default class Teacher extends Component {
     render() {
         return (
-            <View style={{flex:1}}>
-
+            <View style={{flex:1,justifyContent: 'center', alignItems: 'center',}}>
+                <Text style={{color: "#000"}}>Teacher</Text>
             </View>
         );
     }

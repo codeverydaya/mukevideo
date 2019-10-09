@@ -16,17 +16,10 @@ export default class Hot extends Component {
 
 
     render(){
-
-
         return (
-            <ScrollView
-                ref={"scrollView"}
-                automaticallyAdjustContentInsets={false}
-                horizontal={false}
-                style={{ flex: 1 }}
-
-            >
-            </ScrollView>
+            <View style={{flex:1,justifyContent: 'center', alignItems: 'center',}}>
+                <Text style={{color: "#000"}}>Hot</Text>
+            </View>
         );
     }
     shouldComponentUpdate(){
