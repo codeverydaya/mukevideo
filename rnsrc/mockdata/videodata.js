@@ -8,6 +8,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频1'
     },
     {
         id:'1',
@@ -17,6 +18,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频2'
     },
     {
         id:'2',
@@ -26,6 +28,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频3'
     },
     {
         id:'3',
@@ -35,6 +38,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频4'
     },
     {
         id:'4',
@@ -44,6 +48,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频5'
     },
     {
         id:'5',
@@ -53,6 +58,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频6'
     },
     {
         id:'6',
@@ -62,6 +68,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频7'
     },
     {
         id:'7',
@@ -71,6 +78,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频8'
     },{
         id:'8',
         pic:'p8',
@@ -79,8 +87,8 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频9'
     },
-
     {
         id:'9',
         pic:'p9',
@@ -89,6 +97,7 @@ const VideoData=[
         videoUrl:'',
         videoWidth:1280,
         videoHeight:720,
+        title :'react native 开发慕课视频10'
     },
 ]
 
