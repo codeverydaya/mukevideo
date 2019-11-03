@@ -28,7 +28,7 @@ const  routeConfigs = {
         screen: MukeVideo,
 
         navigationOptions: ({ navigation }) => ({
-            title:"视频播放器"
+            header:null
         }),
     },
 
