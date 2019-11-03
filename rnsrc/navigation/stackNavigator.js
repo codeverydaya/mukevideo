@@ -1,32 +1,101 @@
+/**
+ * @author lmy
+ * @date 2019/08/04 下午12:37
+ * @desc
+ */
 import React, {Component} from 'react';
-import {Platform, StyleSheet,Text, View} from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Me from "../pages/me";
-import Setting from "../pages/setting";
+import {Platform, StyleSheet, Text, View,Image,Easing,Animated} from 'react-native';
+import {createAppContainer, createStackNavigator} from 'react-navigation';
+import BottomTabNavigator from './bottomTabNavigator';
+import MukeVideo from "../pages/mukeVideo";
 
-
+import CourseContent from '../pages/courseContent';
+import Teacher from '../pages/teacher';
+import About from '../pages/about';
+import Expect from '../pages/expect';
+import Setting from '../pages/setting';
+import DrawerNavigator from "./drawerNavigator";
 
 const  routeConfigs = {
-    Me:{
-        //对应一个页面，就是一个react组件
-        screen: Me,
-        //是深度链接(Deeplinking)对应的地址，通过映射预定义行为到唯一的链接上，
-        //对于支持深度链接功能的移动应用，可以通过调用深度链接打开应用，也可跳转到应用内指定页面
-        // path: 'me/:name',
-        //主要用于配置页面的 navigation Header ,需要传入一个函数或者一个object，也可以在组件中用static变量配置
-        navigationOptions: ({ navigation }) => ({
+
+    DrawerNavigator:{
+        screen: DrawerNavigator,
+        navigationOptions:{
             header:null
+        }
+    },
+    MukeVideo:{
+        screen: MukeVideo,
+
+        navigationOptions: ({ navigation }) => ({
+            title:"视频播放器"
         }),
+    },
+
+    About:{
+        screen: About,
+        navigationOptions:{
+            header:null
+        }
     },
     Setting:{
         screen: Setting,
         navigationOptions:{
             header:null
         }
-    }
+    },
+
 }
-const navigatorConfig={};
 
-const StackNavigator = createStackNavigator(routeConfigs, navigatorConfig);
 
-export default StackNavigator
+const  stackNavigatorConfig={
+    initialRouteName: 'DrawerNavigator',//初始页面
+    navigationOptions: {
+        gesturesEnabled: false,
+    },
+
+    transitionConfig: () => ({
+        transitionSpec: {
+            duration: 400,
+            easing: Easing.out(Easing.poly(4)),
+            timing: Animated.timing,
+        },
+        screenInterpolator: sceneProps => {
+            const {layout, position, scene,navigation} = sceneProps;
+            const { route } = scene;
+            const params = route.params || {};
+            //专场效果，根据modeStyle设置
+            const modeStyle = params.modeStyle;
+            const {index} = scene;
+            const Width = layout.initWidth;
+            const height = layout.initHeight;
+            //沿X轴平移
+            const translateX = position.interpolate({
+                inputRange: [index - 1, index, index + 1],
+                outputRange: [Width, 0, -(Width - 10)],
+            });
+            //沿Y轴平移
+            const translateY = position.interpolate({
+                inputRange: [index - 1, index, index + 1],
+                outputRange: [height, 0, 0],
+            });
+            //透明度
+            const opacity = position.interpolate({
+                inputRange: [index - 1, index - 0.99, index],
+                outputRange: [0, 1, 1],
+            });
+            if(modeStyle=="up"){
+                return { opacity, transform: [{ translateY }] };
+            }else if(modeStyle=="opacity"){
+                return {opacity};
+            }else{
+                return {opacity, transform: [{translateX}]};
+            }
+        }
+    }),
+
+}
+
+const StackNavigator =createStackNavigator(routeConfigs,stackNavigatorConfig);
+export  default StackNavigator;
+
