@@ -92,7 +92,7 @@ export default class Progress extends Component {
                 {
                     //主要拿到这个view的位置和宽度
                     NativeModules.UIManager.measure(event.target, (x, y, width, height, pageX, pageY) => {
-                        this.progressLocation = {
+                        this.progressLocatio = {
                             name: 'progressLocation',
                             pageX:pageX - Util.getWidth(),
                             width: width,
