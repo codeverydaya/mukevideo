@@ -1,3 +1,9 @@
+ /**
+ * @author lmy
+ * @date 2019/08/04 下午12:37
+ * @desc 视频播放页面,通过改变屏幕方向
+ */
+
 import React, {Component} from 'react';
 import {PanResponder,StyleSheet,Text,TouchableOpacity, View,Image,Button,DeviceInfo} from 'react-native';
 import Util from "../utils/util";
@@ -7,22 +13,26 @@ import Orientation from 'react-native-orientation'
 export default class MukeVideo  extends Component {
     constructor(props) {
         super(props);
+        //页面时初始事，锁定屏幕为竖屏
         Orientation.lockToPortrait();
 
+        //初始化页面参数
         this.state = {
-            rate: 1,
-            volume: 1,
-            muted: false,
-            resizeMode: 'contain',
-            paused: true,
-            duration: 0.0,
-            currentTime: 0.0,
-            rateShow:false,
-            lock:false,
-            controlShow:true,
+            rate: 1,// 用于倍速播放，0.0-暂停播放，1.0-正常速率播放，其他值 - 自定义速率，例如0.5慢速播放或者2.0快速播放
+            volume: 1,//视频播放的音量控制，1.0-满音量， 0.0-将音频静音
+            muted: false,//控制音频是否静音，(true、false)
+            resizeMode: 'contain',//视频缩放模式
+            paused: true,//控制视频播放暂停 (true、false) ，以上是Video组件的受控的参数
+
+            duration: 0.0,//视频的总时长
+            currentTime: 0.0,//视频的当前播放进度，单位为秒
+            rateShow:false,//控制进度条的显示
+            lock:false,//控制锁屏按钮的显示
+            controlShow:true,//用于控制层的控制
             isPortrait:true,//初始为竖屏
         }
         this.calculateParams(true);
+        //处理触摸事件
         this.panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => {
                 return true;
@@ -51,21 +61,19 @@ export default class MukeVideo  extends Component {
             },
             onPanResponderRelease: (evt, gestureState) => {
 
-                //重新设置定时器
+                //重新设置定时器，用于隐藏控制层
                 this.timeOut = setTimeout(()=>{
                     this.setState({
-                        //controlShow:false
+                        controlShow:false
                     })
                 },3000)
             },
             onPanResponderTerminate:(evt, gestureState) => {
             },
         });
-
-
     }
 
-    //监听屏幕的改变，重新计算视频的布局
+    //监听屏幕的改变，重新计算视频的布局并重新渲染
     updateOrientation=(orientation)=> {
 
         this.calculateParams(orientation=="PORTRAIT");
@@ -74,15 +82,15 @@ export default class MukeVideo  extends Component {
         })
     }
     componentDidMount(){
+
         this.timeOut = setTimeout(()=>{
             this.setState({
-                // controlShow:false,
+                 controlShow:false,
             })
         },3000);
 
-        //添加屏幕监听
+        //添加屏幕方向监听
         Orientation.addOrientationListener(this.updateOrientation);
-
     }
     componentWillUnmount()  {
         this.timeOut&& clearTimeout(this.timeOut);
@@ -96,13 +104,17 @@ export default class MukeVideo  extends Component {
         const {navigation} = this.props;
         const {videoData} = navigation.state.params ;
         const  videoScreen = this.videoScreen;
+        //由于没有服务器视频地址，项目中模拟两类(宽高比>1,<=1)视频
+        const addr4=require("../assets/4.mp4");
+        const addr1=require("../assets/1.mp4");
+        let addr= videoData.videoUrl.indexOf("4.") != -1? addr4:addr1;
         return (
             <View style={{paddingTop:videoScreen.paddingTop,paddingLeft:videoScreen.paddingLeft ,flex: 1, justifyContent: this.state.isPortrait?'flex-start' : 'center', alignItems: this.state.isPortrait?'center' : 'flex-start', backgroundColor: '#ccc',}}>
 
                 <View style={{width: videoScreen.width, height: videoScreen.height,backgroundColor:'black'}}>
                     <Video ref={(ref) => {this.video = ref}}
-                        /* For ExoPlayer */
-                           source={require('../assets/4.mp4')}
+
+                           source={addr}
                            style={{width: '100%', height: '100%'}}
                            rate={this.state.rate}
                            paused={this.state.paused}
@@ -120,7 +132,6 @@ export default class MukeVideo  extends Component {
 
                             <TouchableOpacity
                                 onPress={()=>{
-
                                     if (this.state.isPortrait) {
                                         navigation.goBack()
                                     } else {
@@ -218,11 +229,8 @@ export default class MukeVideo  extends Component {
                                         <Image style={{height: 25,width: 25 }}  source={{uri:this.state.paused?"play":'pause'}}/>
                                     </TouchableOpacity>
 
-
                                 </View>
                                 <View style={{flexDirection:'row',justifyContent: 'flex-end', alignItems: 'center',  flex:1, height: '100%',backgroundColor:'rgba(0,0,0,0)'}}>
-
-
 
                                     <TouchableOpacity
                                         onPress={()=>{
@@ -248,7 +256,6 @@ export default class MukeVideo  extends Component {
 
                                 </View>
 
-
                             </View>
                         </View>
                         {/*lock*/}
@@ -273,23 +280,12 @@ export default class MukeVideo  extends Component {
         const {navigation} = this.props;
         const params = navigation.state.params;
         const videoData = params.videoData;
-        //视频分辨率
+        //获取视频分辨率
         this.videoRatio = {
             width: videoData.videoWidth,
             height: videoData.videoHeight,
             rate: videoData.videoWidth / videoData.videoHeight
         }
-        this.videoRatio = {
-            width: 188,
-            height: 720,
-            rate: 188 / 720
-        }
-        // this.videoRatio = {
-        //     width: 1152,
-        //     height: 720,
-        //     rate: 1152 / 720
-        // }
-
         //屏幕分辨率
         this.screen = {
             width: Util.getWidth(),
@@ -337,7 +333,6 @@ export default class MukeVideo  extends Component {
             this.videoScreen.paddingLeft =this.statusHeight;
         }
 
-
         //可用屏幕宽高比
         this.videoScreen.rate = this.videoScreen.width / this.videoScreen.height
 
@@ -347,7 +342,6 @@ export default class MukeVideo  extends Component {
                 this.videoScreen.height = this.videoScreen.width/this.videoRatio.rate;
             }
         }
-
     }
     //设置视频的播放进度
     changeProgress=(rate)=>{
@@ -376,14 +370,11 @@ export default class MukeVideo  extends Component {
             width: data.width,
             height: data.height
         }
-        // console.log(data.duration + "时长");
-        // console.log(data );
     };
 
     //获取视频的播放进度
     onProgress = (data) => {
         this.setState({currentTime: data.currentTime});
-        // console.log(data.currentTime + "hhh");
     };
     //视频播放完回调
     onEnd = () => {
