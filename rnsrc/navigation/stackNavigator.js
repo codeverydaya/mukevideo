@@ -8,7 +8,7 @@ import {Platform, StyleSheet, Text, View,Image,Easing,Animated} from 'react-nati
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 import BottomTabNavigator from './bottomTabNavigator';
 import MukeVideo from "../pages/mukeVideo";
-
+import MukeTransformVideo from "../pages/mukeTransformVideo";
 import CourseContent from '../pages/courseContent';
 import Teacher from '../pages/teacher';
 import About from '../pages/about';
@@ -26,6 +26,13 @@ const  routeConfigs = {
     },
     MukeVideo:{
         screen: MukeVideo,
+
+        navigationOptions: ({ navigation }) => ({
+            header:null
+        }),
+    },
+    MukeTransformVideo:{
+        screen: MukeTransformVideo,
 
         navigationOptions: ({ navigation }) => ({
             header:null
@@ -98,4 +105,5 @@ const  stackNavigatorConfig={
 
 const StackNavigator =createStackNavigator(routeConfigs,stackNavigatorConfig);
 export  default StackNavigator;
+
 
